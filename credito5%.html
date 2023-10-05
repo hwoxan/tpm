@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de 5%</title>
+</head>
+<body>
+    <h1>Calculadora de 5%</h1>
+    <form>
+        <label for="valorOriginal">Valor Original:</label>
+        <input type="number" id="valorOriginal" placeholder="Digite o valor" step="0.01">
+        <input type="button" value="Calcular" onclick="calcular()">
+    </form>
+    <p id="resultado"></p>
+
+    <script>
+        function calcular() {
+            var valorOriginal = parseFloat(document.getElementById("valorOriginal").value);
+            var taxa = 0.05; // 5% em forma decimal
+            var total = valorOriginal * (1 + taxa);
+
+            document.getElementById("resultado").innerHTML = "Total: " + total.toFixed(2) + " reais";
+        }
+    </script>
+</body>
+</html>
