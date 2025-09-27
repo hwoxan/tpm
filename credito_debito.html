@@ -4,47 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Taxas</title>
+    <link href="https://refrigeracao.net/wp-content/uploads/2021/11/point_pro_2.jpg" rel="apple-touch-icon" sizes="180x180">
     <style>
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 20px;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #121212;
+            color: #eaeaea;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h1 {
             text-align: center;
-            color: #0056b3;
+            color: #80cbc4;
         }
 
         .container {
             max-width: 600px;
             margin: 20px auto;
-            background: #fff;
+            background: #333;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, color 0.3s;
         }
 
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            color: #eaeaea;
         }
 
+        /* Estilo do campo de entrada */
         input[type="number"] {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid #666;
+            border-radius: 8px;
+            background-color: #444;
+            font-size: 16px;
+            color: #eaeaea;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            border-color: #80cbc4;
+            background-color: #555;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
         }
 
         button {
-            background: #0056b3;
-            color: #fff;
+            background: #80cbc4;
+            color: #333;
             padding: 10px 15px;
             border: none;
             border-radius: 4px;
@@ -53,28 +70,95 @@
         }
 
         button:hover {
-            background: #003f80;
+            background: #4f9a94;
         }
 
         .resultado {
             font-size: 1.2em;
-            color: #007500;
+            color: #66bb6a;
             font-weight: bold;
             margin: 10px 0;
         }
 
         .erro {
             font-size: 1.2em;
-            color: #d9534f;
+            color: #f44336;
             font-weight: bold;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 150px; /* Defina o tamanho da imagem conforme necessário */
+        }
+
+        /* Estilo para o modo claro */
+        body[data-theme="light"] {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        body[data-theme="light"] h1 {
+            color: #0056b3;
+        }
+
+        body[data-theme="light"] .container {
+            background: #fff;
+            color: #333;
+        }
+
+        body[data-theme="light"] label {
+            color: #333;
+        }
+
+        body[data-theme="light"] input[type="number"] {
+            background-color: #f4f4f4;
+            border: 2px solid #ccc;
+            color: #333;
+        }
+
+        body[data-theme="light"] button {
+            background: #0056b3;
+            color: #fff;
+        }
+
+        body[data-theme="light"] button:hover {
+            background: #003f80;
+        }
+
+        body[data-theme="light"] .resultado {
+            color: #007500;
+        }
+
+        body[data-theme="light"] .erro {
+            color: #d9534f;
+        }
+
+        /* Botão de alternância entre modos */
+        .switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .switch:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
-<body>
+<body data-theme="dark">
     <h1>Calculadora de Taxas</h1>
+    <!-- Botão para alternar entre os modos -->
+    <button class="switch" onclick="toggleTheme()">Alternar Tema</button>
 
     <div class="container">
-        <form>
+        <form id="calculadoraForm">
             <label for="valorOriginal">Valor Original:</label>
             <input type="number" id="valorOriginal" placeholder="Digite o valor" step="0.01">
             <button type="button" onclick="calcularTaxas()">Calcular</button>
@@ -86,6 +170,7 @@
     </div>
 
     <script>
+        // Função para calcular as taxas
         function calcularTaxas() {
             const valorOriginal = parseFloat(document.getElementById("valorOriginal").value);
             const resultados = document.getElementById("resultados");
@@ -111,6 +196,24 @@
             document.getElementById("resultadoCredito").innerHTML = `Crédito (10%): ${formatarReal.format(totalCredito)}`;
             document.getElementById("resultadoDebito").innerHTML = `Débito (5%): ${formatarReal.format(totalDebito)}`;
         }
+
+        // Função para alternar entre os modos claro e escuro
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute("data-theme");
+            if (currentTheme === "dark") {
+                document.body.setAttribute("data-theme", "light");
+            } else {
+                document.body.setAttribute("data-theme", "dark");
+            }
+        }
+
+        // Adicionando evento de pressionamento da tecla "Enter" no campo de número
+        document.getElementById("valorOriginal").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Impede que o formulário seja enviado
+                calcularTaxas(); // Chama a função de cálculo
+            }
+        });
     </script>
 </body>
 </html>
