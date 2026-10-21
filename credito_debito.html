@@ -1,219 +1,393 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Taxas</title>
-    <link href="https://refrigeracao.net/wp-content/uploads/2021/11/point_pro_2.jpg" rel="apple-touch-icon" sizes="180x180">
+    <title>Taxa | hwoxan</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='2' width='16' height='20' rx='2' ry='2'></rect><line x1='8' y1='6' x2='16' y2='6'></line><line x1='16' y1='14' x2='16' y2='14'></line><line x1='8' y1='10' x2='8' y2='10'></line><line x1='12' y1='10' x2='12' y2='10'></line><line x1='16' y1='10' x2='16' y2='10'></line><line x1='8' y1='14' x2='8' y2='14'></line><line x1='12' y1='14' x2='12' y2='14'></line><line x1='8' y1='18' x2='8' y2='18'></line><line x1='12' y1='18' x2='12' y2='18'></line><line x1='16' y1='18' x2='16' y2='18'></line></svg>">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #121212;
-            color: #eaeaea;
-            transition: background-color 0.3s, color 0.3s;
+        :root {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --border: #334155;
+            --input-bg: #0f172a;
+            --transition: 0.2s ease-in-out;
         }
 
-        h1 {
-            text-align: center;
-            color: #80cbc4;
+        [data-theme="light"] {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #0284c7;
+            --accent-hover: #0369a1;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --border: #e2e8f0;
+            --input-bg: #f1f5f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: background-color var(--transition), color var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .container {
-            max-width: 600px;
-            margin: 20px auto;
-            background: #333;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background 0.3s, color 0.3s;
+            width: 100%;
+            max-width: 450px;
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #eaeaea;
+            margin-bottom: 0.6rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-main);
         }
 
-        /* Estilo do campo de entrada */
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper span {
+            position: absolute;
+            left: 1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
         input[type="number"] {
             width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 2px solid #666;
-            border-radius: 8px;
-            background-color: #444;
-            font-size: 16px;
-            color: #eaeaea;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
+            padding: 0.875rem 1rem 0.875rem 2.75rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            color: var(--text-main);
+            font-size: 1.125rem;
+            font-weight: 500;
+            transition: all var(--transition);
         }
 
         input[type="number"]:focus {
-            border-color: #80cbc4;
-            background-color: #555;
             outline: none;
-            box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
         }
 
-        button {
-            background: #80cbc4;
-            color: #333;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        button:hover {
-            background: #4f9a94;
-        }
-
-        .resultado {
-            font-size: 1.2em;
-            color: #66bb6a;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .erro {
-            font-size: 1.2em;
-            color: #f44336;
-            font-weight: bold;
-        }
-
-        .logo {
-            display: block;
-            margin: 0 auto 20px;
-            width: 150px; /* Defina o tamanho da imagem conforme necessário */
-        }
-
-        /* Estilo para o modo claro */
-        body[data-theme="light"] {
-            background-color: #f9f9f9;
-            color: #333;
-        }
-
-        body[data-theme="light"] h1 {
-            color: #0056b3;
-        }
-
-        body[data-theme="light"] .container {
-            background: #fff;
-            color: #333;
-        }
-
-        body[data-theme="light"] label {
-            color: #333;
-        }
-
-        body[data-theme="light"] input[type="number"] {
-            background-color: #f4f4f4;
-            border: 2px solid #ccc;
-            color: #333;
-        }
-
-        body[data-theme="light"] button {
-            background: #0056b3;
-            color: #fff;
-        }
-
-        body[data-theme="light"] button:hover {
-            background: #003f80;
-        }
-
-        body[data-theme="light"] .resultado {
-            color: #007500;
-        }
-
-        body[data-theme="light"] .erro {
-            color: #d9534f;
-        }
-
-        /* Botão de alternância entre modos */
-        .switch {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #333;
+        button.btn-primary {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--accent);
             color: white;
-            padding: 8px 15px;
-            border-radius: 25px;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all var(--transition);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        .switch:hover {
-            background-color: #0056b3;
+        button.btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        button.btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .results-area {
+            margin-top: 2rem;
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: var(--input-bg);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border);
+            transition: border-color var(--transition);
+        }
+
+        .result-card:hover {
+            border-color: var(--accent);
+        }
+
+        .result-info span {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--success);
+        }
+
+        .btn-copy {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all var(--transition);
+        }
+
+        .btn-copy:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.125rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.75rem;
+            transition: all var(--transition);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: rotate(15deg);
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 0.6rem;
+            font-weight: 500;
+            display: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        footer {
+            margin-top: 2.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color var(--transition);
+        }
+
+        footer a:hover {
+            color: var(--accent-hover);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.75rem;
+            }
         }
     </style>
 </head>
-<body data-theme="dark">
-    <h1>Calculadora de Taxas</h1>
-    <!-- Botão para alternar entre os modos -->
-    <button class="switch" onclick="toggleTheme()">Alternar Tema</button>
 
+<body data-theme="dark">
     <div class="container">
-        <form id="calculadoraForm">
-            <label for="valorOriginal">Valor Original:</label>
-            <input type="number" id="valorOriginal" placeholder="Digite o valor" step="0.01">
-            <button type="button" onclick="calcularTaxas()">Calcular</button>
-        </form>
-        <div id="resultados">
-            <p class="resultado" id="resultadoCredito"></p>
-            <p class="resultado" id="resultadoDebito"></p>
-        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Alternar Tema">🌓</button>
+
+        <header class="header">
+            <h1>Calculadora</h1>
+            <p class="subtitle">Simulação de taxas de transação</p>
+        </header>
+
+        <main>
+            <div class="form-group">
+                <label for="valorOriginal">Valor da Transação</label>
+                <div class="input-wrapper">
+                    <span>R$</span>
+                    <input type="number" id="valorOriginal" placeholder="0,00" step="0.01" min="0" autocomplete="off">
+                </div>
+                <p id="errorMsg" class="error-msg">⚠️ Insira um valor válido para calcular.</p>
+            </div>
+
+            <button class="btn-primary" onclick="calcularTaxas()">Calcular Agora</button>
+
+            <section id="resultsArea" class="results-area">
+                <div class="result-card">
+                    <div class="result-info">
+                        <span>Recebimento Crédito (10%)</span>
+                        <div class="result-value" id="resCredito">R$ 0,00</div>
+                    </div>
+                    <button class="btn-copy" onclick="copyValue('resCredito', this)">Copiar</button>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-info">
+                        <span>Recebimento Débito (5%)</span>
+                        <div class="result-value" id="resDebito">R$ 0,00</div>
+                    </div>
+                    <button class="btn-copy" onclick="copyValue('resDebito', this)">Copiar</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            Desenvolvido por <a href="https://t.me/pudim" target="_blank" rel="noopener noreferrer">hwoxan</a>
+        </footer>
     </div>
 
     <script>
-        // Função para calcular as taxas
-        function calcularTaxas() {
-            const valorOriginal = parseFloat(document.getElementById("valorOriginal").value);
-            const resultados = document.getElementById("resultados");
+        const formatador = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
 
-            if (isNaN(valorOriginal) || valorOriginal <= 0) {
-                document.getElementById("resultadoCredito").innerHTML = "";
-                document.getElementById("resultadoDebito").innerHTML = "";
-                resultados.innerHTML = "<p class='erro'>Por favor, insira um valor válido.</p>";
+        function calcularTaxas() {
+            const input = document.getElementById("valorOriginal");
+            const valor = parseFloat(input.value);
+            const errorMsg = document.getElementById("errorMsg");
+            const resultsArea = document.getElementById("resultsArea");
+
+            if (isNaN(valor) || valor <= 0) {
+                errorMsg.style.display = "flex";
+                resultsArea.style.display = "none";
+                input.style.borderColor = "var(--danger)";
                 return;
             }
 
-            const taxaCredito = 0.10; // 10%
-            const taxaDebito = 0.05;  // 5%
+            errorMsg.style.display = "none";
+            input.style.borderColor = "var(--border)";
+            resultsArea.style.display = "block";
 
-            const totalCredito = valorOriginal * (1 + taxaCredito);
-            const totalDebito = valorOriginal * (1 + taxaDebito);
+            const taxaCredito = 0.10;
+            const taxaDebito = 0.05;
 
-            const formatarReal = new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL'
+            const totalCredito = valor * (1 + taxaCredito);
+            const totalDebito = valor * (1 + taxaDebito);
+
+            document.getElementById("resCredito").innerText = formatador.format(totalCredito);
+            document.getElementById("resDebito").innerText = formatador.format(totalDebito);
+        }
+
+        function copyValue(id, btn) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = "Copiado!";
+                btn.style.color = "white";
+                btn.style.backgroundColor = "var(--success)";
+                btn.style.borderColor = "var(--success)";
+
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.color = "";
+                    btn.style.backgroundColor = "";
+                    btn.style.borderColor = "";
+                }, 1500);
             });
-
-            document.getElementById("resultadoCredito").innerHTML = `Crédito (10%): ${formatarReal.format(totalCredito)}`;
-            document.getElementById("resultadoDebito").innerHTML = `Débito (5%): ${formatarReal.format(totalDebito)}`;
         }
 
-        // Função para alternar entre os modos claro e escuro
         function toggleTheme() {
-            const currentTheme = document.body.getAttribute("data-theme");
-            if (currentTheme === "dark") {
-                document.body.setAttribute("data-theme", "light");
-            } else {
-                document.body.setAttribute("data-theme", "dark");
-            }
+            const body = document.body;
+            const newTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+            body.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
         }
 
-        // Adicionando evento de pressionamento da tecla "Enter" no campo de número
-        document.getElementById("valorOriginal").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault(); // Impede que o formulário seja enviado
-                calcularTaxas(); // Chama a função de cálculo
-            }
+        // Initialize theme
+        const savedTheme = localStorage.getItem("theme") || "dark";
+        document.body.setAttribute("data-theme", savedTheme);
+
+        // Enter key support
+        document.getElementById("valorOriginal").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") calcularTaxas();
         });
     </script>
 </body>
+
 </html>
