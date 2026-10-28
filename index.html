@@ -321,7 +321,7 @@
                 <div class="result-card">
                     <div class="result-content">
                         <div class="result-info">
-                            <span>Crédito (Valor Integral)</span>
+                            <span>Crédito (Valor com Desconto da Taxa)</span>
                             <div class="result-value" id="resCredito">R$ 0,00</div>
                         </div>
                         <button class="btn-copy" onclick="copyValue('resCredito', this)">Copiar</button>
@@ -371,7 +371,7 @@
             const taxaCredito = parseFloat(document.getElementById("taxaCredito").value) / 100;
             const taxaDebito = parseFloat(document.getElementById("taxaDebito").value) / 100;
 
-            const totalCredito = valor;
+            const totalCredito = valor * (1 - taxaCredito);
             const totalDebito = valor * (1 - taxaDebito);
 
             document.getElementById("resCredito").innerText = formatador.format(totalCredito);
