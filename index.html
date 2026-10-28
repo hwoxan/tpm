@@ -297,6 +297,16 @@
                 <p id="errorMsg" class="error-msg">⚠️ Insira um valor válido para calcular.</p>
             </div>
 
+            <div class="form-group" style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label for="taxaCredito">Taxa Crédito (%)</label>
+                    <input type="number" id="taxaCredito" value="10" step="0.1" min="0">
+                </div>
+                <div style="flex: 1;">
+                    <label for="taxaDebito">Taxa Débito (%)</label>
+                    <input type="number" id="taxaDebito" value="5" step="0.1" min="0">
+                </div>
+            </div>
             <button class="btn-primary" onclick="calcularTaxas()">Calcular Agora</button>
 
             <section id="resultsArea" class="results-area">
@@ -346,8 +356,8 @@
             input.style.borderColor = "var(--border)";
             resultsArea.style.display = "block";
 
-            const taxaCredito = 0.10;
-            const taxaDebito = 0.05;
+            const taxaCredito = parseFloat(document.getElementById("taxaCredito").value) / 100;
+            const taxaDebito = parseFloat(document.getElementById("taxaDebito").value) / 100;
 
             const totalCredito = valor * (1 + taxaCredito);
             const totalDebito = valor * (1 + taxaDebito);
