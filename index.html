@@ -407,6 +407,17 @@
         const savedTheme = localStorage.getItem("theme") || "dark";
         document.body.setAttribute("data-theme", savedTheme);
 
+        // Enter key support
+        document.getElementById("valorOriginal").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") calcularTaxas();
+        });
+        document.getElementById("taxaCredito").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") calcularTaxas();
+        });
+        document.getElementById("taxaDebito").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") calcularTaxas();
+        });
+
         function toggleTaxSettings() {
             const settings = document.getElementById('taxSettings');
             settings.style.display = settings.style.display === 'none' ? 'flex' : 'none';
