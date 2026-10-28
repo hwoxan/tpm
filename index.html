@@ -321,26 +321,20 @@
                 <div class="result-card">
                     <div class="result-content">
                         <div class="result-info">
-                            <span>Cobrar no Crédito</span>
+                            <span>Crédito (Valor Integral)</span>
                             <div class="result-value" id="resCredito">R$ 0,00</div>
                         </div>
                         <button class="btn-copy" onclick="copyValue('resCredito', this)">Copiar</button>
-                    </div>
-                    <div class="result-info" style="margin-top: 1rem; padding-top: 0.5rem; border-top: 1px solid var(--border);">
-                        <span style="font-size: 0.65rem;">(Para receber R$ 800,00 c/ taxa de <span id="taxV1">4</span>%)</span>
                     </div>
                 </div>
 
                 <div class="result-card">
                     <div class="result-content">
                         <div class="result-info">
-                            <span>Cobrar no Débito</span>
+                            <span>Débito (Valor com Desconto da Taxa)</span>
                             <div class="result-value" id="resDebito">R$ 0,00</div>
                         </div>
                         <button class="btn-copy" onclick="copyValue('resDebito', this)">Copiar</button>
-                    </div>
-                    <div class="result-info" style="margin-top: 1rem; padding-top: 0.5rem; border-top: 1px solid var(--border);">
-                        <span style="font-size: 0.65rem;">(Para receber R$ 800,00 c/ taxa de <span id="taxV2">2</span>%)</span>
                     </div>
                 </div>
             </section>
@@ -377,13 +371,11 @@
             const taxaCredito = parseFloat(document.getElementById("taxaCredito").value) / 100;
             const taxaDebito = parseFloat(document.getElementById("taxaDebito").value) / 100;
 
-            const totalCredito = valor / (1 - taxaCredito);
-            const totalDebito = valor / (1 - taxaDebito);
+            const totalCredito = valor;
+            const totalDebito = valor * (1 - taxaDebito);
 
             document.getElementById("resCredito").innerText = formatador.format(totalCredito);
             document.getElementById("resDebito").innerText = formatador.format(totalDebito);
-            document.getElementById("taxV1").innerText = document.getElementById("taxaCredito").value;
-            document.getElementById("taxV2").innerText = document.getElementById("taxaDebito").value;
         }
 
         function copyValue(id, btn) {
